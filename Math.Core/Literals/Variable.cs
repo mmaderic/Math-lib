@@ -64,7 +64,7 @@ namespace Math.Core.Literals
             return new Expression(this, Operator.Multiplication, number);
         }
 
-        [ExpressionResult(reverseCalculation: true)]
+        [ExpressionResult]
         internal override Number ReverseSubtract(Number number)
             => new Expression(number, Operator.Subtraction, this);
 
