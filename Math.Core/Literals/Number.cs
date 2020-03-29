@@ -1,6 +1,4 @@
-﻿
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using Math.Core.Builders.ExpressionBuilders;
 
 namespace Math.Core.Literals
 {
@@ -32,8 +30,8 @@ namespace Math.Core.Literals
         public static implicit operator Number(char value)
             => new Variable(value);
 
-        public static implicit operator Number(string value)
-            => ConstructFromString(value);
+        public static implicit operator Number(string input)
+            => new ExpressionBuilder(input).SolveExpression();
 
         public abstract override string ToString();
         public abstract override bool Equals(object obj);
@@ -47,45 +45,6 @@ namespace Math.Core.Literals
         internal abstract Number ReverseSubtract(Number number);
         internal abstract Number ReverseDivide(Number number);
 
-        internal abstract bool Equals(Number number);
-
-        private static Number ConstructFromString(string input)
-        {
-            var integer = IntegerMatch(input);
-            if (!(integer is null))
-                return integer;
-
-            var singleFraction = SingleFractionMatch(input);
-            if (!(singleFraction is null))
-                return singleFraction;
-
-            return default;
-        }
-
-        private static Integer IntegerMatch(string input)
-        {
-            var integerRegex = new Regex("^[[0-9]*$");
-            var integerMatch = integerRegex.Matches(input).SingleOrDefault();
-
-            if (integerMatch is null)
-                return null;
-
-            var result = integerMatch.ToString();
-
-            return new Integer(result);
-        }
-
-        private static Fraction SingleFractionMatch(string input)
-        {
-            var singleFractionRegex = new Regex("^[0-9]*[/][0-9]*$|^[(][0-9]*[/][0-9]*[)]$");
-            var singleFractionMatch = singleFractionRegex.Matches(input).SingleOrDefault();
-
-            if (singleFractionMatch is null)
-                return null;
-            
-            var result = singleFractionMatch.ToString().Replace("(", "").Replace(")", "");
-
-            return new Fraction(result); 
-        }        
+        internal abstract bool Equals(Number number);        
     }
 }
