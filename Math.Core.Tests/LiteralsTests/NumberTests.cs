@@ -22,21 +22,11 @@ namespace Math.Core.Tests.LiteralsTests
         }
 
         [Fact]
-        public void ImplicitStringToInteger()
+        public void ImplicitStringToVariable()
         {
-            Number integer = "2357";
+            Number variable = "d";
 
-            Assert.True(integer is Integer && integer.ToString() == "2357");
-        }
-
-        [Fact]
-        public void ImplicitStringToSingleFraction()
-        {
-            Number fractionA = "257/432";
-            Number fractionB = "(257/432)";
-
-            Assert.True(fractionA is Fraction && fractionA.ToString() == "257/432");
-            Assert.True(fractionB is Fraction && fractionB.ToString() == "257/432");
+            Assert.True(variable is Variable && variable.ToString() == "d");
         }
     }
 }
