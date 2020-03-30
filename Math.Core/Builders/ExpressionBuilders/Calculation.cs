@@ -8,34 +8,33 @@ namespace Math.Core.Builders.ExpressionBuilders
 {
     internal class Calculation : IComparable<Calculation>
     {
-        public Func<Number> Left;
-        public Func<Number> Right;
+        private readonly Number _left;
+        private readonly Number _right;
+        private readonly Operator _operator;
 
-        public Number LeftNumber { get; set; }
-        public Number RightNumber { get; set; }     
+        public Func<Number> Left { get; set; }
+        public Func<Number> Right { get; set; }
         
         public Calculation LeftReference { get; set; }
         public Calculation RightReference { get; set; }
 
-        public Operator Operator { get; }
-
         public Calculation(Number left, Operator @operator, Number right)
         {
-            Operator = @operator;
-            LeftNumber = left;
-            RightNumber = right;
+            _operator = @operator;
+            _left = left;
+            _right = right;
 
-            Left = () => LeftNumber;
-            Right = () => RightNumber;
+            Left = () => _left;
+            Right = () => _right;
         }        
 
         public int CompareTo([AllowNull] Calculation other)
         {
-            if (Operator.IsComplementary(other.Operator))
+            if (_operator.IsComplementary(other._operator))
                 return 0;
 
-            if ((Operator == Operator.Addition || Operator == Operator.Subtraction) &&
-                other.Operator == Operator.Multiplication || other.Operator == Operator.Division)
+            if ((_operator == Operator.Addition || _operator == Operator.Subtraction) &&
+                other._operator == Operator.Multiplication || other._operator == Operator.Division)
                 return 1;
 
             return -1;
@@ -43,7 +42,7 @@ namespace Math.Core.Builders.ExpressionBuilders
 
         public Number Calculate()
         {
-            return Operator switch
+            return _operator switch
             {
                 Operator.Addition => Left.Invoke() + Right.Invoke(),
                 Operator.Subtraction => Left.Invoke() - Right.Invoke(),
@@ -54,5 +53,17 @@ namespace Math.Core.Builders.ExpressionBuilders
                 _ => throw new NotImplementedException("Operator not implemented."),
             };
         }
+
+        public bool IsLinkedOnLeft(Calculation leftCalculation)
+            => ReferenceEquals(_left, leftCalculation._right);
+
+        public bool IsLinkedOnRight(Calculation rightCalculation)
+            => ReferenceEquals(_right, rightCalculation._left);
+
+        public void UseDefaultLeftValue()
+            => Left = () => _left;
+
+        public void UseDefaultRightValue()
+            => Right = () => _right;
     }
 }
