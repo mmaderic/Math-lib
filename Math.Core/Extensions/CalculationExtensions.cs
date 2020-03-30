@@ -19,13 +19,8 @@ namespace Math.Core.Extensions
             {
                 var calculation = calculations.ElementAt(i);
 
-                var referencedLeft = calculations.SingleOrDefault(x => !linked.Contains(x) &&
-                    !ReferenceEquals(x, calculation) &&
-                    ReferenceEquals(calculation.LeftNumber, x.RightNumber));
-
-                var referencedRight = calculations.SingleOrDefault(x => !linked.Contains(x) &&
-                    !ReferenceEquals(x, calculation) 
-                    && ReferenceEquals(calculation.RightNumber, x.LeftNumber));
+                var referencedLeft = calculations.SingleOrDefault(x => !linked.Contains(x) && calculation.IsLinkedOnLeft(x));
+                var referencedRight = calculations.SingleOrDefault(x => !linked.Contains(x) && calculation.IsLinkedOnRight(x));
 
                 if (!(referencedLeft is null))
                 {                    
@@ -53,7 +48,7 @@ namespace Math.Core.Extensions
                     return;
 
                 right.LeftReference = null;
-                right.Left = () => right.LeftNumber;
+                right.UseDefaultLeftValue();
 
                 switcher.RightReference = right;
                 switcher.Right = right.Calculate;
