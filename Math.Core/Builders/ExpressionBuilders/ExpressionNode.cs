@@ -85,19 +85,14 @@ namespace Math.Core.Builders.ExpressionBuilders
 
         private void OpenBrackets(Node node)
         {
-            if (node is null || node is OperatorNode)
-                node = new ExpressionNode(this);
-
-            else if (!(node is OperatorNode))
-            {
+            if (!(node is OperatorNode) && !(node is null))
                 _nodes.Add(new OperatorNode(this, Operator.Multiplication));
 
-                node = new ExpressionNode(this);
-            }
+            node = new ExpressionNode(this);
+            _nodes.Add(node);
 
             var builder = (IBuilder)node;
             Commander = builder.ExecuteCommand;
-            _nodes.Add(node);
         }
 
         private void CloseBrackets(Node node)
