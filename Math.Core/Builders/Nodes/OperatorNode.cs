@@ -3,19 +3,21 @@ using Math.Core.Enumerations;
 using Math.Core.Extensions;
 using System;
 
-namespace Math.Core.Builders.ExpressionBuilders
+namespace Math.Core.Builders.Nodes
 {
-    internal class OperatorNode : Node
+    internal class OperatorNode : INode
     {
-        public readonly Operator Operator;
+        public IBuilder Builder { get; }
+        public Operator Operator { get; }
 
-        public OperatorNode(IBuilder builder, Operator @operator) : base(builder)
+        public OperatorNode(IBuilder builder, Operator @operator)
         {
             if (@operator == Operator.None)
                 throw new InvalidOperationException("Invalid builder state.");
 
+            Builder = builder;
             Operator = @operator;
-        }           
+        }
 
         public override string ToString()
             => $" {Operator.Sign()} ";        

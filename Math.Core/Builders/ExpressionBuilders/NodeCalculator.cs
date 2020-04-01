@@ -1,4 +1,5 @@
 ﻿using Math.Core.Abstractions;
+using Math.Core.Builders.Nodes;
 using Math.Core.Enumerations;
 using Math.Core.Extensions;
 using Math.Core.Literals;
@@ -13,9 +14,9 @@ namespace Math.Core.Builders.ExpressionBuilders
         private readonly List<Number> _numbers;
         private readonly IEnumerable<Operator> _operators;
 
-        public NodeCalculator(List<Node> nodes)
+        public NodeCalculator(IEnumerable<INode> nodes)
         {
-            if (nodes.Count == 0)
+            if (nodes.Count() == 0)
                 throw new InvalidOperationException("Invalid calculation. Expression is empty.");
 
             _numbers = new List<Number>();

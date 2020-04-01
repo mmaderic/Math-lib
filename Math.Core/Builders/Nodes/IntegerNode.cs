@@ -4,27 +4,27 @@ using Math.Core.Literals;
 using System;
 using System.Collections.Generic;
 
-namespace Math.Core.Builders.ExpressionBuilders
+namespace Math.Core.Builders.Nodes
 {
-    internal class IntegerNode : Node, IBuilder, INumberFactory
-    {
-        void IBuilder.UseDefaultCommander()
-            => Commander = ExecuteCommand;
-
+    internal class IntegerNode : Builder, INode, INumberFactory
+    { 
         Number INumberFactory.Construct()
             => new Integer(long.Parse(new string(_characters.ToArray())));
 
+        public IBuilder Builder { get; }
+
         private readonly List<char> _characters;
 
-        public Action<BuilderCommand, char?> Commander { get; set; }
-
-        public IntegerNode(IBuilder builder) : base(builder)        
-            => _characters = new List<char>();        
+        public IntegerNode(IBuilder builder, char character)
+        {
+            Builder = builder;          
+            _characters = new List<char>() { character };
+        }
 
         public override string ToString()
             => $"{new string(_characters.ToArray())}";
 
-        public void ExecuteCommand(BuilderCommand command, char? character = null)
+        public override void DefaultCommander(BuilderCommand command, char? character)
         {
             switch (command)
             {
@@ -44,35 +44,30 @@ namespace Math.Core.Builders.ExpressionBuilders
                 case BuilderCommand.Subtract:
                 case BuilderCommand.Multiply:
                 case BuilderCommand.Divide:
-                    InsertOperator(command);
+                    Builder.UseDefaultCommander();
+                    Builder.ExecuteCommand(command);
                     break;
                 default:
                     throw new InvalidOperationException("Invalid builder state.");
             }
         }
 
-        private void OpenBrackets()
+        protected override void OpenBrackets()
         {
             Builder.UseDefaultCommander();
             Builder.ExecuteCommand(BuilderCommand.OpenBrackets);
         }
 
-        private void CloseBrackets()
+        protected override void CloseBrackets()
         {
             Builder.UseDefaultCommander();
             Builder.ExecuteCommand(BuilderCommand.CloseBrackets);
         }
 
-        private void EmptySpace()        
+        protected override void EmptySpace()        
             => Builder.UseDefaultCommander();        
 
-        private void InsertInteger(char character)
-            => _characters.Add(character);        
-
-        private void InsertOperator(BuilderCommand command)
-        {
-            Builder.UseDefaultCommander();
-            Builder.ExecuteCommand(command);
-        }
+        protected override void InsertInteger(char character)
+            => _characters.Add(character);
     }
 }
