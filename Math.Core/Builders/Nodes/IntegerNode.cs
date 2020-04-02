@@ -9,9 +9,16 @@ namespace Math.Core.Builders.Nodes
     internal class IntegerNode : Builder, INode, INumberFactory
     { 
         Number INumberFactory.Construct()
-            => new Integer(long.Parse(new string(_characters.ToArray())));
+        {
+            var result = new Integer(long.Parse(new string(_characters.ToArray())));
+            if (_isNegative)
+                result *= -1;
+
+            return result;
+        }
 
         public IBuilder Builder { get; }
+        private bool _isNegative;
 
         private readonly List<char> _characters;
 
@@ -69,5 +76,8 @@ namespace Math.Core.Builders.Nodes
 
         protected override void InsertInteger(char character)
             => _characters.Add(character);
+
+        public void Negate()
+            => _isNegative ^= true;
     }
 }

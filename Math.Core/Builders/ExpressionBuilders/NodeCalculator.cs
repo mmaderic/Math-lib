@@ -16,8 +16,17 @@ namespace Math.Core.Builders.ExpressionBuilders
 
         public NodeCalculator(IEnumerable<INode> nodes)
         {
-            if (nodes.Count() == 0)
+            if (nodes.Count() == 0 || nodes.Count() == 1 && nodes.First() is OperatorNode)
                 throw new InvalidOperationException("Invalid calculation. Expression is empty.");
+
+            if (nodes.First() is OperatorNode operatorNode && operatorNode.Operator == Operator.Subtraction)
+            {
+                nodes = nodes.Skip(1);
+                if (!(nodes.First() is INumberFactory firstNumberFactory))
+                    throw new InvalidOperationException("Invalid calculation.");
+
+                firstNumberFactory.Negate();
+            }
 
             _numbers = new List<Number>();
             foreach (var node in nodes)

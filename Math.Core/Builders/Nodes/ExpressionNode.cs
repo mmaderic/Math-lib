@@ -11,12 +11,17 @@ namespace Math.Core.Builders.Nodes
     internal class ExpressionNode : Builder, INode, INumberFactory
     {
         public IBuilder Builder { get; }
+        private bool _isNegative;
 
         Number INumberFactory.Construct()
         {
             var calculator = new NodeCalculator(Nodes);
+            var result = calculator.Calculate();
 
-            return calculator.Calculate();
+            if (_isNegative)
+                result = result *= -1;
+
+            return result;
         }
 
         public ExpressionNode(IBuilder builder)        
@@ -73,6 +78,9 @@ namespace Math.Core.Builders.Nodes
             }
         }
 
+        public void Negate()
+            => _isNegative ^= true;
+
         protected override void CloseBrackets()
         {
             var lastNode = Nodes.LastOrDefault();
@@ -80,6 +88,6 @@ namespace Math.Core.Builders.Nodes
                 throw new InvalidOperationException("Invalid expression statement.");
 
             Builder.UseDefaultCommander();
-        }   
+        }
     }
 }

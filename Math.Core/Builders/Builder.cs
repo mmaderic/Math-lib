@@ -89,7 +89,7 @@ namespace Math.Core.Builders
         protected virtual void InsertOperator(Operator @operator)
         {
             var lastNode = Nodes.LastOrDefault();
-            if (lastNode is null || lastNode is OperatorNode)
+            if ((lastNode is null || lastNode is OperatorNode) && lastNode is null && @operator != Operator.Subtraction)
                 throw new InvalidOperationException("Invalid expression statement.");
 
             var newNode = new OperatorNode(this, @operator);

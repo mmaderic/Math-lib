@@ -6,9 +6,16 @@ namespace Math.Core.Builders.Nodes
     internal class VariableNode : INode, INumberFactory
     {
         Number INumberFactory.Construct()
-            => new Variable(_variable);
+        {
+            Number result = new Variable(_variable);
+            if (_isNegative)
+                result *= -1;
+
+            return result;
+        }
 
         public IBuilder Builder { get; }
+        private bool _isNegative;
 
         private readonly char _variable;
 
@@ -19,6 +26,9 @@ namespace Math.Core.Builders.Nodes
         }
 
         public override string ToString()
-            => _variable.ToString();        
+            => _variable.ToString();
+
+        public void Negate()
+            => _isNegative ^= true;
     }
 }
