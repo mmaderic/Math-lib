@@ -83,5 +83,13 @@ namespace Math.Core.Tests.BuildersTests
             Assert.Equal("9", expressionH.ToString());
             Assert.Equal("48074", expressionI.ToString());
         }
+
+        [Fact]
+        public void ImplicitStringToExpressionResult_E()
+        {
+            Number expressionA = "-15 + 27 - 3 - 11 + 2";
+
+            Assert.Equal("0", expressionA.ToString());            
+        }
     }
 }
