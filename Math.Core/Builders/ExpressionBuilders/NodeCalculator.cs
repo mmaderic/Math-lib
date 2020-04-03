@@ -16,7 +16,7 @@ namespace Math.Core.Builders.ExpressionBuilders
 
         public NodeCalculator(IEnumerable<INode> nodes)
         {
-            if (nodes.Count() == 0 || nodes.Count() == 1 && nodes.First() is OperatorNode)
+            if (nodes.Count() == 0 || (nodes.Count() == 1 && nodes.First() is OperatorNode))
                 throw new InvalidOperationException("Invalid calculation. Expression is empty.");
 
             if (nodes.First() is OperatorNode operatorNode && operatorNode.Operator == Operator.Subtraction)
