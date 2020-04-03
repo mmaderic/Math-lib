@@ -88,8 +88,12 @@ namespace Math.Core.Tests.BuildersTests
         public void ImplicitStringToExpressionResult_E()
         {
             Number expressionA = "-15 + 27 - 3 - 11 + 2";
+            Number expressionB = "7 - 9 + 6 - 3 - 1";
+            Number expressionC = "(-5) + (+4) + (-4) + (+4) + (-8)";
 
-            Assert.Equal("0", expressionA.ToString());            
+            Assert.Equal("0", expressionA.ToString());
+            Assert.Equal("0", expressionB.ToString());
+            Assert.Equal("-9", expressionC.ToString());
         }
     }
 }
