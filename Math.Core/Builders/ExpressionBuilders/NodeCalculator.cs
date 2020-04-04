@@ -53,12 +53,7 @@ namespace Math.Core.Builders.ExpressionBuilders
                 calculations.Add(new Calculation(left, @operator, right));
             }
 
-            calculations.Sort();
-            calculations.Link();
-
-            var result = calculations.Calculate();
-
-            return result;
+            return calculations.Calculate();
         }
     }
 }
