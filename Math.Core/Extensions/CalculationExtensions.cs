@@ -1,67 +1,42 @@
-﻿using Math.Core.Builders.ExpressionBuilders;
+﻿using Math.Core.Builders;
 using Math.Core.Literals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Math.Core.Extensions
 {
     internal static class CalculationExtensions
-    {
-        public static void Link(this IEnumerable<Calculation> calculations)
+    {   
+        public static Number Calculate(this IEnumerable<Calculation> calculations)
         {
-            if (calculations.Count() < 2)
-                return;
+            var count = calculations.Count();
+            if (count == 0)
+                throw new InvalidOperationException("Empty calculations collection.");
 
-            Calculation switcher;
-            var linked = new List<Calculation>();            
+            else if (count == 1 || (count == 2 && calculations.ElementAt(1).Right is null))
+                return calculations.First().Calculate();
 
-            for (var i = calculations.Count() - 1; i >= 0; i--)
+            var subCalculations = calculations.ToList();
+            for (var i = 0; i < subCalculations.Count - 1; i++)
             {
-                var calculation = calculations.ElementAt(i);
+                var calculation = subCalculations[i];
+                var nextCalculation = subCalculations[i + 1];
 
-                var referencedLeft = calculations.SingleOrDefault(x => !linked.Contains(x) && calculation.IsLinkedOnLeft(x));
-                var referencedRight = calculations.SingleOrDefault(x => !linked.Contains(x) && calculation.IsLinkedOnRight(x));
+                var a = calculation.Left;
+                var b = calculation.Right;
+                var c = nextCalculation.Right;
 
-                if (!(referencedLeft is null))
-                {                    
-                    calculation.Left = referencedLeft.Calculate;
-                    calculation.LeftReference = referencedLeft;                    
-                }
+                var oa = calculation.Operator;
+                var ob = nextCalculation.Operator;
 
-                if (!(referencedRight is null))
-                {
-                    calculation.Right = referencedRight.Calculate;
-                    calculation.RightReference = referencedRight;
-                    switcher = calculation;
-                }
+                var subCalculation = new Calculator(a, oa, b, ob, c).SubCalculation();
 
-                linked.Add(calculation);
+                subCalculations[i--] = subCalculation;
+                subCalculations.Remove(nextCalculation);
             }
 
-            void SwitchReferences(Calculation switcher)
-            {
-                switcher = switcher.RightReference;                
-                var right = calculations.SingleOrDefault(
-                    x => ReferenceEquals(x.LeftReference, switcher));
-
-                if (right is null)
-                    return;
-
-                right.LeftReference = null;
-                right.UseDefaultLeftValue();
-
-                switcher.RightReference = right;
-                switcher.Right = right.Calculate;
-
-                SwitchReferences(switcher);
-            }
-
-            var sideSwitcher = linked.SingleOrDefault(x => !(x.LeftReference is null) && !(x.RightReference is null));
-            if (!(sideSwitcher is null))
-                SwitchReferences(sideSwitcher);
-        }
-
-        public static Number Calculate(this IEnumerable<Calculation> calculations)        
-            => calculations.Last().Calculate();
+            return subCalculations.First().Calculate();
+        } 
     }
 }
