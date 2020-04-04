@@ -90,10 +90,41 @@ namespace Math.Core.Tests.BuildersTests
             Number expressionA = "-15 + 27 - 3 - 11 + 2";
             Number expressionB = "7 - 9 + 6 - 3 - 1";
             Number expressionC = "(-5) + (+4) + (-4) + (+4) + (-8)";
+            Number expressionD = "(-15) + (+16) + (-9) + (+5) + (+7) + (-10)";
+            Number expressionE = "(-12) + (+15) - (-4) - (-8) + (+11)";
+            Number expressionF = "(-21) + (-11) - (+6) - (-8) - (-4)";
 
             Assert.Equal("0", expressionA.ToString());
             Assert.Equal("0", expressionB.ToString());
             Assert.Equal("-9", expressionC.ToString());
+            Assert.Equal("-6", expressionD.ToString());
+            Assert.Equal("26", expressionE.ToString());
+            Assert.Equal("-26", expressionF.ToString());
+        }
+
+        [Fact]
+        public void ImplicitStringToExpressionResult_F()
+        {
+            Number expressionA = "3 x (-8) + 2 x (-1) + 5 x (-4)";
+            Number expressionB = "(-3) x (-8) + 2 x (-10) - 5 x (-2)";
+            Number expressionC = "7 x (-2) -5 x (-3) - (-1)";
+            Number expressionD = "(-2)x(-5)x(-3)-(+4)x(-2)x(+5)+(+6)x(-10)";
+            Number expressionE = "((+3) x (-6) - (-2)) x (24(-1) - (-1) x (-4))";
+            Number expressionF = "((8 - 5) x (2 - 7) - (6 - 7) x (4 - 3)) x (5 - 9)";
+            Number expressionG = "-2-(-5-(8-(5-3)))";
+            Number expressionH = "4-(4-(-10 -(8-11)-(1-12)))";
+            Number expressionI = "-2-2(-2-2(-2x(-2)-2))";
+
+
+            Assert.Equal("-46", expressionA.ToString());
+            Assert.Equal("14", expressionB.ToString());
+            Assert.Equal("2", expressionC.ToString());
+            Assert.Equal("-50", expressionD.ToString());
+            Assert.Equal("448", expressionE.ToString());
+            Assert.Equal("56", expressionF.ToString());
+            Assert.Equal("9", expressionG.ToString());
+            Assert.Equal("4", expressionH.ToString());
+            Assert.Equal("10", expressionI.ToString());
         }
     }
 }
