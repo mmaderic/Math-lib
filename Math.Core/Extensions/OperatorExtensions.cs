@@ -30,5 +30,16 @@ namespace Math.Core.Extensions
                     return false;
             }
         }
+
+        public static bool IsHigherPrecedence(this Operator @operator, Operator otherOperator)
+        {
+            if (@operator.IsComplementary(otherOperator))
+                return false;
+
+            if (@operator == Operator.Multiplication || @operator == Operator.Division)
+                return true;
+
+            return false;
+        }
     }
 }
