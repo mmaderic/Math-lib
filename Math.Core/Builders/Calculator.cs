@@ -17,10 +17,11 @@ namespace Math.Core.Builders
         public Calculator(Number a, Operator oa, Number b, Operator ob, Number c)
         {
             A = a;
-            OA = oa;
             B = b;
-            OB = ob;
             C = c;
+
+            OA = oa;
+            OB = ob;
         }
 
         public Calculation SubCalculation()
