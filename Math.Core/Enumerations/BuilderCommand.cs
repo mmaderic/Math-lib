@@ -11,6 +11,9 @@ namespace Math.Core.Enumerations
         Add,
         Subtract,
         Multiply,
-        Divide
+        Divide,
+        DefineSet,
+        Assignment,
+        Comma
     }
 }
