@@ -50,6 +50,7 @@ namespace Math.Core.Builders.Nodes
                     CloseBrackets();
                     break;
                 case BuilderCommand.EmptySpace:
+                    EmptySpace();
                     break;
                 case BuilderCommand.InsertInteger:
                     InsertInteger(character.Value);
