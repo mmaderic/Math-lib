@@ -1,4 +1,4 @@
-﻿using Math.Core.Builders.ExpressionBuilders;
+﻿using Math.Core.Builders;
 
 namespace Math.Core.Literals
 {
