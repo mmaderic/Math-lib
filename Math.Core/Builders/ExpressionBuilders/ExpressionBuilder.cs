@@ -13,25 +13,25 @@ namespace Math.Core.Builders.ExpressionBuilders
                 var character = input[i];
 
                 if (character == '(')
-                    ExecuteCommand(BuilderCommand.OpenBrackets, null);
+                    ExecuteCommand(BuilderCommand.OpenBrackets);
 
                 else if (character == ')')
-                    ExecuteCommand(BuilderCommand.CloseBrackets, null);
+                    ExecuteCommand(BuilderCommand.CloseBrackets);
 
                 else if (character == ' ')
-                    ExecuteCommand(BuilderCommand.EmptySpace, null);
+                    ExecuteCommand(BuilderCommand.EmptySpace);
 
                 else if (character == '+')
-                    ExecuteCommand(BuilderCommand.Add, null);
+                    ExecuteCommand(BuilderCommand.Add);
 
                 else if (character == '-')
-                    ExecuteCommand(BuilderCommand.Subtract, null);
+                    ExecuteCommand(BuilderCommand.Subtract);
 
                 else if (character == 'x')
-                    ExecuteCommand(BuilderCommand.Multiply, null);
+                    ExecuteCommand(BuilderCommand.Multiply);
 
                 else if (character == '/')
-                    ExecuteCommand(BuilderCommand.Divide, null);
+                    ExecuteCommand(BuilderCommand.Divide);
 
                 else if (char.IsNumber(character))
                     ExecuteCommand(BuilderCommand.InsertInteger, character);
