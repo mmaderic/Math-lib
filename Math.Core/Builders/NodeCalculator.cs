@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Math.Core.Builders.ExpressionBuilders
+namespace Math.Core.Builders
 {
     internal class NodeCalculator
     {

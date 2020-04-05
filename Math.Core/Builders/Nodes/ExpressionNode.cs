@@ -1,5 +1,4 @@
 ﻿using Math.Core.Abstractions;
-using Math.Core.Builders.ExpressionBuilders;
 using Math.Core.Enumerations;
 using Math.Core.Literals;
 using System;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace Math.Core.Builders.Nodes
 {
-    internal class ExpressionNode : Builder, INode, INumberFactory
+    internal class ExpressionNode : ExpressionBuilder, INode, INumberFactory
     {
         public IBuilder Builder { get; }
         private bool _isNegative;
@@ -39,9 +38,6 @@ namespace Math.Core.Builders.Nodes
 
             return builder.ToString();
         }
-
-        public override void UseDefaultCommander()
-            => Commander = DefaultCommander;
 
         public override void DefaultCommander(BuilderCommand command, char? character)
         {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Math.Core.Builders.Nodes
 {
-    internal class IntegerNode : Builder, INode, INumberFactory
+    internal class IntegerNode : ExpressionBuilder, INode, INumberFactory
     { 
         Number INumberFactory.Construct()
         {
